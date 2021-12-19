@@ -22,3 +22,7 @@ vendor/
 
 # .txt files created for the app
 *.txt
+
+# excluding binaries for linux
+passgen
+main
