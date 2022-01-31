@@ -1,6 +1,14 @@
-# IDE
+# Jetbrains IDEs
 .idea
 *.swp
+
+# Vim
+*.swp
+*.swn
+*.swo
+
+# Redis
+*.rdb
 
 # Binaries for programs and plugins
 *.exe
