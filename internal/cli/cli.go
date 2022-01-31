@@ -57,7 +57,7 @@ func InitFlags(flags *Flags) {
 	flag.CommandLine.BoolVar(&flags.Verbose, "v", false, "verbose")
 
 	flags.State = NewValue(&[]int{})
-	flag.CommandLine.Var(flags.State, "state", "password generation state, must be an array")
+	flag.CommandLine.Var(flags.State, "state", "password generation state, must be an array (the state is used to continue with a password generation previously canceled)")
 
 	flag.CommandLine.Usage = usage
 
