@@ -1,6 +1,5 @@
 # Jetbrains IDEs
 .idea
-*.swp
 
 # Vim
 *.swp
@@ -25,12 +24,11 @@
 *.old
 *.out
 
+#
+/build
+
 # Dependency directories (remove the comment below to include it)
 vendor/
 
 # .txt files created for the app
 *.txt
-
-# excluding binaries for linux
-passgen
-main
