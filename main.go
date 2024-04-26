@@ -32,5 +32,5 @@ func main() {
 		output = os.Stdout
 	}
 
-	cli.RunContext(ctx, output, flags)
+	_ = cli.RunContext(ctx, output, flags)
 }

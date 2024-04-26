@@ -27,14 +27,14 @@ func (p *Password) SetState(state []int) {
 	p.state = state
 }
 
-// State returns an slice that represents the state of password generation
-// more especifically defines the length of passwords that will generated
-// and it is used during the password generation.
+// State returns a slice that represents the state of password generation
+// more specifically defines the length of passwords that will generate, and
+// it is used during the password generation.
 //
 // How it works:
 //
-// For a empty state with length 3 the initial state will be: [0, 0, 0]
-// but the state can be init with any value always it driven for the following points...
+// For an empty state with length 3 the initial state will be: [0, 0, 0]
+// but the state can be init with any value always it drive for the following points...
 //
 // For each slot the maximum value is: len(Characters())
 //
@@ -44,26 +44,29 @@ func (p *Password) SetState(state []int) {
 // When a password is generated using the method Generate the last slot increases by one.
 //
 // When the first slot exceeds the maximum allowed value the password generation ends.
-func (p Password) State() []int {
+func (p *Password) State() []int {
 	return p.state
 }
 
 // SetCharacters use to set characters without repeat
 func (p *Password) SetCharacters(characters []rune) {
-	memory := make(map[rune]struct{})
+	set := make(map[rune]struct{})
 
+	// Extracting unique characters
 	for _, char := range characters {
-		if _, ok := memory[char]; ok {
-			continue
-		}
+		set[char] = struct{}{}
+	}
 
-		memory[char] = struct{}{}
+	// Setting unique characters
+	p.characters = make([]rune, 0, len(set))
+
+	for char := range set {
 		p.characters = append(p.characters, char)
 	}
 }
 
 // Characters returns the characters used to generate passwords
-func (p Password) Characters() []rune {
+func (p *Password) Characters() []rune {
 	return p.characters
 }
 
@@ -95,16 +98,12 @@ func (p *Password) Generate() (word []rune) {
 }
 
 // Next check if a password can be generated
-func (p Password) Next() bool {
-	if len(p.characters) < 1 || len(p.state) < 1 {
-		return false
-	}
-
-	return p.state[0] != len(p.characters)
+func (p *Password) Next() bool {
+	return len(p.characters) > 0 && len(p.state) > 0 && p.state[0] != len(p.characters)
 }
 
-// N returns the number of passwords that be created with a initial state.
-// The initial state refers a empty slice of length "n": [0, 0, ...]
-func (p Password) N() int {
+// N returns the number of passwords that be created with an initial state.
+// The initial state refers an empty slice of length "n": [0, 0, ...]
+func (p *Password) N() int {
 	return int(math.Pow(float64(len(p.characters)), float64(len(p.state))))
 }
