@@ -5,14 +5,13 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/yael-castro/passgen/pkg/password"
 	"io"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/yael-castro/passgen/internal/password"
 )
 
 // binaryName is the application name
@@ -104,16 +103,14 @@ func RunContext(ctx context.Context, w io.Writer, flags Flags) error {
 	defer file.Close()
 	defer file.Sync()
 
-	p := password.Password{}
-
 	state := *(flags.State.Value().(*[]int))
 
 	if len(state) < 1 {
 		state = make([]int, flags.Length)
 	}
 
+	p := password.New([]rune(flags.String)...)
 	p.SetState(state)
-	p.SetCharacters([]rune(flags.String))
 
 	go func() {
 		fmt.Fprintf(w, "Generating '%d' passwords...\n", p.N())

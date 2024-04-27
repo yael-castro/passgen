@@ -21,7 +21,7 @@ type Flags struct {
 	Length uint
 	// String contains all characters used to generate passwords
 	String string
-	// Output specify the file name where the password will saved
+	// Output specify the file name where the password dictionary will save
 	Output string
 	// Verbose specify if print the program execution step by step (show more details about the password generation)
 	Verbose bool
@@ -47,7 +47,7 @@ func (s *FlagValue) Value() interface{} {
 	return s.value
 }
 
-// Set takes the string passed as parameter and it assumes
+// Set takes the string passed as parameter, and it assumes
 // that the string is encoded in json format and decode
 // the serialized data to save it
 func (s *FlagValue) Set(value string) error {

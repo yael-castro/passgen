@@ -5,14 +5,14 @@ import (
 	"math"
 )
 
-// Generator implemented by password generators
-type Generator interface {
-	// Generate use to generate a new password random, based on time or some state
-	Generate() []rune
-}
+func New(characters ...rune) *Password {
+	p := Password{}
 
-// _ Generator implementation constraint for Password
-var _ Generator = (*Password)(nil)
+	p.SetCharacters(characters)
+	p.SetState(make([]int, len(characters)))
+
+	return &p
+}
 
 // Password struct used to make passwords based on a state and characters
 type Password struct {
@@ -50,18 +50,22 @@ func (p *Password) State() []int {
 
 // SetCharacters use to set characters without repeat
 func (p *Password) SetCharacters(characters []rune) {
-	set := make(map[rune]struct{})
+	// Setting unique characters
+	p.characters = make([]rune, 0, len(characters))
 
 	// Extracting unique characters
+	exists := false
+	set := make(map[rune]struct{})
+
 	for _, char := range characters {
-		set[char] = struct{}{}
-	}
+		_, exists = set[char]
+		if exists {
+			continue
+		}
 
-	// Setting unique characters
-	p.characters = make([]rune, 0, len(set))
-
-	for char := range set {
 		p.characters = append(p.characters, char)
+
+		set[char] = struct{}{}
 	}
 }
 
