@@ -39,6 +39,15 @@ func TestPassword_Generate(t *testing.T) {
 			},
 		},
 		{
+			password: New('A', 'B'),
+			expected: [][]rune{
+				{'A', 'A'},
+				{'A', 'B'},
+				{'B', 'A'},
+				{'B', 'B'},
+			},
+		},
+		{
 			password: &Password{},
 		},
 	}
@@ -55,7 +64,7 @@ func TestPassword_Generate(t *testing.T) {
 				generated := password.Generate()
 
 				if !reflect.DeepEqual(expected, generated) {
-					t.Errorf(`expected "%v" got "%v"`, expected, generated)
+					t.Errorf(`expected "%v" got "%v"`, string(expected), string(generated))
 					continue
 				}
 
